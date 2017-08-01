@@ -1,17 +1,31 @@
 import discord
 from discord.ext import commands
+from .utils.chat_formatting import escape_mass_mentions, italics, pagify
 from random import choice as rndchoice
-from .utils.dataIO import fileIO
-from .utils import checks
+from random import randint
 import os
 
-    @commands.command(no_pm=True, hidden=True)
-    async def moide(self, user : discord.Member, intensity : int=1):
-        name = italics(user.display_name)
-        if intensity <= 0:
-            msg = "moideu{} (￣ω￣) :3".format(name)
-        await self.bot.say(msg)
+class Moide:
+    """Moide :3."""
+
+    def __init__(self, bot):
+        self.bot = bot
+
+    @commands.group(pass_context=True, invoke_without_command=True)
+    async def moide(self, ctx, *, user: discord.Member=None):
+        """Moide alguém."""
+        botid = self.bot.user.id
+        if user is None:
+            user = ctx.message.author
+            await self.bot.say("Vou te moide " + user.name)
+        elif user.id == botid:
+            user = ctx.message.author
+            botname = self.bot.user.name
+            await self.bot.say(botname + " Moideu " + user.mention +
+                               " :3 ")
+        else:
+            await self.bot.say("Moideu " + user.name + " :3 ")
 
 def setup(bot):
-    n = moide(bot)
+    n = Moide(bot)
     bot.add_cog(n)
