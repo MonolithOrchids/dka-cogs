@@ -15,4 +15,5 @@ class Nuuvem:
         await self.bot.say("https://www.nuuvem.com/catalog/search/"+query)
 
 def setup(bot):
-bot.add_cog(Nuuvem(bot))
+    n = Nuuvem(bot)
+    bot.add_cog(n)
